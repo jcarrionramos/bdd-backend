@@ -1,0 +1,10 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE detectives (id text primary key, name text, lastname text, address text, city text, postalcode text, phone text, device text, level integer);
+CREATE TABLE requests (id integer primary key, detective_id text, date text, description text, curriculum text, status integer);
+CREATE TABLE levels (level integer primary key, price integer );
+INSERT INTO levels VALUES(1,100);
+INSERT INTO levels VALUES(2,200);
+INSERT INTO levels VALUES(3,300);
+INSERT INTO levels VALUES(4,400);
+COMMIT;
