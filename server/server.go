@@ -12,5 +12,11 @@ func New() *gin.Engine {
 
 	r.GET("/ping", pong)
 
+	r.GET("/createdetective", createDetective)
+	r.GET("/createrequest", createRequest)
+
+	r.GET("/managerequest", manageRequest)
+	r.GET("/changelevel", changeLevel)
+
 	return r
 }
