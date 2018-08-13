@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jcarrionramos/mdd-backend/models"
@@ -25,7 +26,12 @@ func createDetective(c *gin.Context) {
 		Level:      0,
 	}
 
-	models.InsertDetective(detective)
+	err := models.InsertDetective(detective)
+
+	if err != nil {
+		c.String(400, err.Error())
+		return
+	}
 
 	c.JSON(http.StatusOK, detective)
 }
@@ -37,17 +43,36 @@ func createRequest(c *gin.Context) {
 		Date:        c.Query("date"),
 		Description: c.Query("description"),
 		Curriculum:  c.Query("curriculum"),
-		Status:      structures.Accepted,
+		Status:      structures.StandBy,
+	}
+
+	// if !models.IsDetective(request.DetectiveID) {
+	// 	c.String(401, "Error: there is no detective with that id, please create one")
+	// }
+
+	err := models.InsertRequest(request)
+	if err != nil {
+		c.String(400, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, request)
+}
+
+func changeLevel(c *gin.Context) {
+	level, _ := strconv.Atoi(c.Query("level"))
+	price, _ := strconv.Atoi(c.Query("price"))
+
+	err := models.ChangePrice(level, price)
+	if err != nil {
+		c.String(400, err.Error())
+		return
+	}
+
+	c.Status(http.StatusOK)
 
 }
 
 func manageRequest(c *gin.Context) {
-	//TODO: ALL!
-}
-
-func changeLevel(c *gin.Context) {
 	//TODO: ALL!
 }

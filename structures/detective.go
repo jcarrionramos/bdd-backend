@@ -1,5 +1,12 @@
 package structures
 
+const (
+	One = iota + 1
+	Two
+	Three
+	Four
+)
+
 type Detective struct {
 	ID         string `json:"rut" db:"rut"`
 	Name       string `json:"name" db:"name"`
