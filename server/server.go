@@ -17,8 +17,7 @@ func New() *gin.Engine {
 
 	r.GET("/changelevel", changeLevel)
 
-	// TODO
-	r.GET("/managerequest", manageRequest)
+	r.GET("/alldetectives", allDetectives)
 
 	return r
 }

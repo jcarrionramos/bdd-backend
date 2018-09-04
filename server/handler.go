@@ -23,7 +23,7 @@ func createDetective(c *gin.Context) {
 		PostalCode: c.Query("postalcode"),
 		Phone:      c.Query("phone"),
 		Device:     c.Query("device"),
-		Level:      0,
+		Level:      structures.One,
 	}
 
 	err := models.InsertDetective(detective)
@@ -45,10 +45,6 @@ func createRequest(c *gin.Context) {
 		Curriculum:  c.Query("curriculum"),
 		Status:      structures.StandBy,
 	}
-
-	// if !models.IsDetective(request.DetectiveID) {
-	// 	c.String(401, "Error: there is no detective with that id, please create one")
-	// }
 
 	err := models.InsertRequest(request)
 	if err != nil {
@@ -73,6 +69,11 @@ func changeLevel(c *gin.Context) {
 
 }
 
-func manageRequest(c *gin.Context) {
-	//TODO: ALL!
+func allDetectives(c *gin.Context) {
+	detectives, err := models.GiveMeAllDetectives()
+	if err != nil {
+		c.String(400, err.Error())
+		return
+	}
+	c.JSON(200, detectives)
 }

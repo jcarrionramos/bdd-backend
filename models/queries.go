@@ -52,3 +52,29 @@ func ChangePrice(level, price int) error {
 
 	return nil
 }
+
+func GiveMeAllDetectives() (detectives []structures.Detective, err error) {
+	rows, err := db.Query("select id, name from detectives")
+
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var id string
+		var name string
+		err = rows.Scan(&id, &name)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		detectives = append(detectives, structures.Detective{
+			ID:   id,
+			Name: name,
+		})
+	}
+
+	return detectives, nil
+}
