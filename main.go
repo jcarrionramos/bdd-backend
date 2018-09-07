@@ -9,7 +9,7 @@ import (
 
 func main() {
 	log.SetFlags(log.Lshortfile)
-	log.Println("Starting API-MDD REST on port 4242")
+	log.Println("Starting API-BDD REST on port 4242")
 
 	server := server.New()
 	err := models.InitDB("./models/database.db")
