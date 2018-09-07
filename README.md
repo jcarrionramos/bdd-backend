@@ -14,5 +14,5 @@ Para correr sus servidor necesitan:
 3. Entrar a la carpeta *bdd-backend* y ejecutar en la terminal `go run main.go`.
 
 4. __ALTERNATIVAMENTE__, si les tira un error, deben ejecutar las siguientes dos lineas, en donde se instalan los framework GIN y MATTN:
-        go get -u github.com/gin-gonic/gin
-        go get github.com/mattn/go-sqlite3
+         go get -u github.com/gin-gonic/gin
+         go get github.com/mattn/go-sqlite3
