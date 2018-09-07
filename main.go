@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/jcarrionramos/mdd-backend/models"
-	"github.com/jcarrionramos/mdd-backend/server"
+	"github.com/jcarrionramos/bdd-backend/models"
+	"github.com/jcarrionramos/bdd-backend/server"
 )
 
 func main() {

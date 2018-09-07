@@ -3,8 +3,7 @@ package models
 import (
 	"log"
 
-	"github.com/jcarrionramos/mdd-backend/structures"
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/jcarrionramos/bdd-backend/structures"
 )
 
 // db is a global variable defined in /models/db.go

@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jcarrionramos/mdd-backend/models"
-	"github.com/jcarrionramos/mdd-backend/structures"
+	"github.com/jcarrionramos/bdd-backend/models"
+	"github.com/jcarrionramos/bdd-backend/structures"
 )
 
 func pong(c *gin.Context) {
