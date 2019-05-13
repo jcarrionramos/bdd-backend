@@ -7,10 +7,10 @@ const (
 )
 
 type Request struct {
-	ID          string `json:"id"`
-	DetectiveID string `json:"detective_id"`
-	Date        string `json:"date"`
-	Description string `json:"description"`
-	Curriculum  string `json:"curriculum"`
-	Status      int    `json:"status"`
+	ID          string `json:"id,omitempty"`
+	DetectiveID string `json:"detective_id,omitempty"`
+	CreatedAt   string `json:"created_at,omitempty"`
+	Info        string `json:"info,omitempty"`
+	Curriculum  string `json:"curriculum,omitempty"`
+	Status      int    `json:"status,omitempty"`
 }

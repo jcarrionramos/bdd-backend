@@ -2,7 +2,6 @@ package server
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jcarrionramos/bdd-backend/models"
@@ -14,66 +13,141 @@ func pong(c *gin.Context) {
 }
 
 func createDetective(c *gin.Context) {
-	detective := structures.Detective{
-		ID:         c.Query("rut"),
-		Name:       c.Query("name"),
-		Lastname:   c.Query("lastname"),
-		Address:    c.Query("address"),
-		City:       c.Query("city"),
-		PostalCode: c.Query("postalcode"),
-		Phone:      c.Query("phone"),
-		Device:     c.Query("device"),
-		Level:      structures.One,
-	}
+	var detective structures.Detective
 
-	err := models.InsertDetective(detective)
+	err := c.ShouldBindJSON(&detective)
 
 	if err != nil {
-		c.String(400, err.Error())
+		c.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err,
+			Data:   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, detective)
+	err = models.InsertDetective(detective)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err,
+			Data:   err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structures.Response{
+		Status: http.StatusOK,
+		Data:   detective,
+	})
 }
 
 func createRequest(c *gin.Context) {
-	request := structures.Request{
-		ID:          c.Query("id"),
-		DetectiveID: c.Query("detective_id"),
-		Date:        c.Query("date"),
-		Description: c.Query("description"),
-		Curriculum:  c.Query("curriculum"),
-		Status:      structures.StandBy,
-	}
+	var request structures.Request
 
-	err := models.InsertRequest(request)
+	err := c.ShouldBindJSON(&request)
+
 	if err != nil {
-		c.String(400, err.Error())
+		c.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err,
+			Data:   err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, request)
+	request.Status = structures.StandBy
+
+	err = models.InsertRequest(request)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err,
+			Data:   err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structures.Response{
+		Status: http.StatusOK,
+		Data:   request,
+	})
 }
 
-func changeLevel(c *gin.Context) {
-	level, _ := strconv.Atoi(c.Query("level"))
-	price, _ := strconv.Atoi(c.Query("price"))
+func createPosition(c *gin.Context) {
+	var position structures.Position
 
-	err := models.ChangePrice(level, price)
+	err := c.ShouldBindJSON(&position)
+
 	if err != nil {
-		c.String(400, err.Error())
+		c.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err,
+			Data:   err.Error(),
+		})
 		return
 	}
 
-	c.Status(http.StatusOK)
+	err = models.InsertPosition(position)
 
+	if err != nil {
+		c.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err,
+			Data:   err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structures.Response{
+		Status: http.StatusOK,
+		Data:   position,
+	})
+}
+
+func changePosition(c *gin.Context) {
+	var newPosition structures.Position
+
+	err := c.ShouldBindJSON(&newPosition)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err,
+			Data:   err.Error(),
+		})
+		return
+	}
+
+	err = models.ChangePrice(newPosition)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err,
+			Data:   err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structures.Response{
+		Status: http.StatusOK,
+		Data:   "Position changed",
+	})
 }
 
 func allDetectives(c *gin.Context) {
-	detectives, err := models.GiveMeAllDetectives()
+	detectives, err := models.SelectAllDetectives()
+
 	if err != nil {
-		c.String(400, err.Error())
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	c.JSON(200, detectives)
+
+	c.JSON(http.StatusOK, structures.Response{
+		Status: http.StatusOK,
+		Data:   detectives,
+	})
 }

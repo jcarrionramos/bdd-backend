@@ -1,10 +1,30 @@
-PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
-CREATE TABLE detectives (id text primary key, name text, lastname text, address text, city text, postalcode text, phone text, device text, level integer);
-CREATE TABLE requests (id integer primary key, detective_id text, date text, description text, curriculum text, status integer);
-CREATE TABLE levels (level integer primary key, price integer );
-INSERT INTO levels VALUES(1,100);
-INSERT INTO levels VALUES(2,200);
-INSERT INTO levels VALUES(3,300);
-INSERT INTO levels VALUES(4,400);
+PRAGMA foreign_keys=ON;
+CREATE TABLE detectives (
+    id text primary key,
+    firstname text,
+    lastname text,
+    city text,
+    postalcode text,
+    phone text,
+    device text,
+    position integer,
+    FOREIGN KEY (position) REFERENCES positions(position) ON DELETE CASCADE
+);
+
+CREATE TABLE requests (
+    id integer primary key,
+    detective_id text,
+    created_at text,
+    info text,
+    curriculum text,
+    req_status integer,
+    FOREIGN KEY (detective_id) REFERENCES detectives(id) ON DELETE CASCADE
+);
+
+CREATE TABLE positions (
+    position integer primary key,
+    price integer 
+);
+
 COMMIT;
